@@ -1,6 +1,6 @@
-import socket #import socket Python library
-import sys #import OS related Python library
- 
+import socket #import socket Python library, socket is a single class
+import sys #import OS related Python library, sys is a single class
+from thread import *  #import all functions from the thread library by their own name
 
 HOST = '' #What is the HOST?
 PORT = 8888 #What is the PORT?
@@ -24,15 +24,30 @@ s.listen(10)
 
 print 'Magic Eight Ball now listening'
 
+#create a function to talk to new client connections
+def clientthread(conn):
+    #Send a message back to the user that connected over this socket connection
+    conn.send('You have summoned the Magic Eight Ball, what is your question?\n')
+    
+    while True:
+
+        #Receive new messages from the client
+        data = conn.recv(1024)
+        reply = 'You asked: ' + data
+        if not data:
+            break
+
+        conn.sendall(reply)
+
+    conn.close() #close only this connection
+        
+
+
 while 1:
     #wait for other clients to connect, when client connects create two new variables
     conn, addr = s.accept()
     print 'Connected to by: ' + addr[0] + ':' + str(addr[1])
 
+    start_new_thread(clientthread, (conn,))
+
 s.close() #close the connection
-
-
-
-
-
-
