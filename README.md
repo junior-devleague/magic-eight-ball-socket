@@ -29,3 +29,4 @@ At the completion of this exercise, students should understand:
 
 ### Resources
 - [Python Socket Docs](https://docs.python.org/3/library/socket.html)
+- [Socket](https://steelkiwi.com/blog/working-tcp-sockets/)
